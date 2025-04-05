@@ -1,0 +1,56 @@
+---
+version: "3"
+
+dotenv: [".env"]
+
+env:
+  ANSIBLE_REPO: "https://github.com/frozenfoxx/ansible-bricksandblocks.git"
+  PACKER_LOG: 1
+  PACKER_LOG_PATH: "packer-debug.txt"
+  HOSTNAME:
+    sh: hostname
+  REGION: '{{ .REGION | default "stl" }}'
+  ROOT_DIR: "{{.ROOT_DIR}}"
+
+includes:
+  ansible:
+    taskfile: ansible/Taskfile.included.yml
+    dir: ansible
+    optional: true
+    internal: true
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    silent: true
+
+  validate:
+    desc: "Validate a Packer configuration"
+    cmds:
+      - packer validate --var-file={{.CLI_ARGS}}/variables.{{.REGION}}.pkrvars.hcl "{{.CLI_ARGS}}"
+
+  build:
+    desc: "Build a Packer configuration"
+    cmds:
+      - packer init "{{.CLI_ARGS}}"
+      - task: validate
+        vars:
+          CLI_ARGS: "{{.CLI_ARGS}}"
+      - packer build --var-file={{.CLI_ARGS}}/variables.{{.REGION}}.pkrvars.hcl "{{.CLI_ARGS}}"
+    silent: true
+
+  setup:
+    desc: "Prepare repository for use"
+    cmds:
+      - rm -rf ansible
+      - git clone "{{.ANSIBLE_REPO}}" ansible
+      - task: ansible:update
+      - task: ansible:setup
+  
+  update:
+    desc: "Update repo"
+    cmds:
+      - rm -rf .taskfiles
+      - git clone https://github.com/frozenfoxx/taskfiles.git .taskfiles
+      - git pull --rebase
