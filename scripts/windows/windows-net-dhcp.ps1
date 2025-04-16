@@ -13,6 +13,10 @@ if ($interface) {
   # Enable DHCP
   Write-Output "Enabling DHCP..."
   Set-NetIPInterface -InterfaceAlias $interfaceAlias -Dhcp Enabled
+
+  # Set network connections profile to Public
+  Write-Output 'Setting the network connection profile to Public...'
+  Set-NetConnectionProfile -InterfaceAlias $interfaceAlias -NetworkCategory "Public"
 } else {
   Write-Output "No Ethernet interface found."
 }

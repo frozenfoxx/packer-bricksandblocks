@@ -5,18 +5,14 @@
 
 $ErrorActionPreference = 'Stop'
 
-# Set network connections provile to Private mode.
-Write-Output 'Setting the network connection profiles to Private...'
+# Set network connections provile to Public
+Write-Output 'Setting the network connection profile to Public...'
 $connectionProfile = Get-NetConnectionProfile
 While ($connectionProfile.Name -eq 'Identifying...') {
     Start-Sleep -Seconds 10
     $connectionProfile = Get-NetConnectionProfile
 }
-Set-NetConnectionProfile -Name $connectionProfile.Name -NetworkCategory Private
-
-# Set the CategoryType property to Private
-# Options are: 0 for domain, 1 for private, 2 for public
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NetworkConnectivityStatuses\NCSI" -Name "CategoryType" -Value 1
+Set-NetConnectionProfile -Name $connectionProfile.Name -NetworkCategory "Public"
 
 # Set the Windows Remote Management configuration.
 Write-Output 'Setting the Windows Remote Management configuration...'

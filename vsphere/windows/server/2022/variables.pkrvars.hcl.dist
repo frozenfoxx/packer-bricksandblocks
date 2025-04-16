@@ -1,0 +1,22 @@
+// vSphere settings
+vsphere_cluster    = "[Cluster Name]"
+vsphere_datacenter = "[Datacenter Name]"
+#vsphere_datastore  = "[Cluster Name]"
+vsphere_datastore  = "[Datastore location for VMs]"
+vsphere_host       = ""
+vsphere_network    = "[Network Name]"
+
+// Removable media settings
+common_iso_datastore = "[Datastore location for ISOs]"
+
+// Virtual Machine Settings
+common_vm_version    = 21
+communicator_timeout = "30m"
+
+// Static IP, optional
+vm_net_ip            = "[IP]"
+vm_net_prefix        = "[Prefix Integer]"
+vm_net_gateway       = "[IP]"
+vm_guest_os_timezone = "PST"
+vm_net_dns_primary   = "[IP]"
+vm_net_dns_secondary = "[IP]"

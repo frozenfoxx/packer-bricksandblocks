@@ -44,6 +44,10 @@ if ($interface) {
     Write-Output "Error setting static IP address: $($Error[0].Message)"
     Start-Sleep -s 3600
   }
+
+  # Set network connection profile to Public
+  Write-Output 'Setting the network connection profiles to Public...'
+  Set-NetConnectionProfile -InterfaceAlias $interfaceAlias -NetworkCategory "Public"
 } else {
   Write-Output "No Ethernet interface found."
 }
