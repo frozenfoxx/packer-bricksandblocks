@@ -202,6 +202,11 @@
                <Order>5</Order>
                <Description>Enable WinRM Listeners</Description>
             </SynchronousCommand>
+            <SynchronousCommand wcm:action="add">
+               <CommandLine>%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -File F:\windows-enable-openssh.ps1</CommandLine>
+               <Order>6</Order>
+               <Description>Enable OpenSSH Server</Description>
+            </SynchronousCommand>
          </FirstLogonCommands>
       </component>
    </settings>
