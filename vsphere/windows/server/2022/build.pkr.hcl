@@ -9,21 +9,20 @@ build {
   provisioner "ansible" {
     user                   = var.build_username
     inventory_directory    = "${var.root_dir}/ansible/inventory"
-    use_proxy              = false
+    groups                 = ["packer-windows-server2022"]
     playbook_file          = "${var.root_dir}/ansible/playbooks/packer-windows-server2022.yml"
-    roles_path             = "${var.root_dir}/ansible/roles"
+    use_proxy              = false
     ansible_env_vars = [
-      "ANSIBLE_CONFIG=${var.root_dir}/ansible/ansible.included.cfg",
+      "ANSIBLE_CONFIG=${var.root_dir}/ansible/ansible.cfg",
       "ANSIBLE_HOST_KEY_CHECKING=False",
       "ANSIBLE_PYTHON_INTERPRETER=auto_silent" # Silence warning about Python discovery
     ]
     extra_arguments = [
-      #"-vvv",
+      #"-v",
       "--extra-vars", "ansible_connection=winrm",
       "--extra-vars", "ansible_user='${var.build_username}'",
       "--extra-vars", "ansible_password='${var.build_password}'",
       "--extra-vars", "ansible_port='${var.communicator_port}'",
-      "--extra-vars", "inventory=${var.root_dir}/ansible/inventory/group_vars/packer-windows-server-2022.yml"
       "--extra-vars", "base_shell_user_name='${var.build_username}'",
     ]
   }
