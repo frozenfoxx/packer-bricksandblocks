@@ -9,7 +9,7 @@ build {
   provisioner "ansible" {
     user                   = var.build_username
     inventory_directory    = "${var.root_dir}/ansible/inventory"
-    groups                 = ["packer-windows-server2022"]
+    groups                 = ["packer_windows_server2022"]
     playbook_file          = "${var.root_dir}/ansible/playbooks/packer-windows-server2022.yml"
     use_proxy              = false
     ansible_env_vars = [
